@@ -3,7 +3,7 @@
 
 Aplikacja pozwalająca śledzieć kursy kryptowalut napisana w Flutter.
 
-Oparta na api Coinpaprika:
+Oparta na darmowym api Coinpaprika:
 
 https://coinpaprika.com/pl/api/
 
