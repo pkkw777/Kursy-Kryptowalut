@@ -1,7 +1,7 @@
 # Kursy Kryptowalut
 
 
-Aplikacja pozwalająca śledzieć kursy kryptowalut napisana w Flutter.
+Aplikacja pozwalająca śledzić kursy kryptowalut napisana w Dart przy użyciu Flutter.
 
 Oparta na darmowym api Coinpaprika:
 
