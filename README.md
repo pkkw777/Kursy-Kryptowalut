@@ -1,4 +1,4 @@
-# crypto_tracker
+# Kursy Kryptowalut
 
 
 Aplikacja pozwalająca śledzieć kursy kryptowalut napisana w Flutter.
