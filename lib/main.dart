@@ -6,7 +6,7 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 
 
-void main() async {
+void main() {
   runApp(
       EasyDynamicThemeWidget(
         child: CryptoCurrencyTracker(),
@@ -36,9 +36,27 @@ class CryptoListState extends State<CryptoList> {
   List cryptoCurrencies = [];
   bool stateControl = false;
   final List<MaterialColor> colorsList = [Colors.amber, Colors.deepOrange, Colors.green, Colors.purple, Colors.indigo, Colors.lightBlue, Colors.teal, Colors.cyan];
-
+  Timer timer;
+  int counter = 0;
+  int test = 0;
   //Pobieranie listy kryptowalut z api
   Future<void> getCryptoCurrenciesPrices() async {
+    var response = await http.get(
+        Uri.encodeFull("https://api.coinpaprika.com/v1/ticker/"),
+        headers: {"Accept": "application/json"});
+
+    setState(() {
+      this.stateControl = true;
+    });
+
+    this.setState(() {
+      this.stateControl = false;
+      cryptoCurrencies = json.decode(response.body);
+    });
+  }
+
+  //Pobieranie listy kryptowalut z api
+  /* Future<void> getCryptoCurrenciesPrices() async {
     String api = "https://api.coinpaprika.com/v1/ticker/";
     setState(() {
       this.stateControl = true;
@@ -51,6 +69,7 @@ class CryptoListState extends State<CryptoList> {
     });
     return;
   }
+*/
 
   //Tworzenie loga kryptowaluty
   CircleAvatar getMainWidget(String name, MaterialColor color) {
@@ -78,6 +97,7 @@ class CryptoListState extends State<CryptoList> {
   void initState() {
     super.initState();
     getCryptoCurrenciesPrices();
+    timer = Timer.periodic(Duration(seconds: 30), (Timer t) => getCryptoCurrenciesPrices());
   }
 
   //Baner
@@ -98,6 +118,9 @@ class CryptoListState extends State<CryptoList> {
         ),
         body: getMainBody());
   }
+
+
+
 
   //Budowanie listy kryptowlut
   Widget buildCryptoCurrencyList() {
