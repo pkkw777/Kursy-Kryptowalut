@@ -1,17 +1,27 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(CryptoCurrencyTracker());
+
+void main() async {
+  runApp(
+      EasyDynamicThemeWidget(
+        child: CryptoCurrencyTracker(),
+      ),
+  );
+}
 
 class CryptoCurrencyTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Aplikacja do śledzenia kursów kryptowalut',
-      theme: new ThemeData(primaryColor: Colors.white),
+      theme: new ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: EasyDynamicTheme.of(context).themeMode,
       home: CryptoList(),
     );
   }
@@ -22,14 +32,13 @@ class CryptoList extends StatefulWidget {
   CryptoListState createState() => CryptoListState();
 }
 
-//Pobieranie listy kryptowalut z api
 class CryptoListState extends State<CryptoList> {
   List cryptoCurrencies = [];
   bool stateControl = false;
   final List<MaterialColor> colorsList = [Colors.amber, Colors.deepOrange, Colors.green, Colors.purple, Colors.indigo, Colors.lightBlue, Colors.teal, Colors.cyan];
 
-  //Łączenie z api
-  Future<void> getCryptoPrices() async {
+  //Pobieranie listy kryptowalut z api
+  Future<void> getCryptoCurrenciesPrices() async {
     String api = "https://api.coinpaprika.com/v1/ticker/";
     setState(() {
       this.stateControl = true;
@@ -43,7 +52,7 @@ class CryptoListState extends State<CryptoList> {
     return;
   }
 
-  //Tworzenie okrągłego loga z literą dla kryptowaluty
+  //Tworzenie loga kryptowaluty
   CircleAvatar getMainWidget(String name, MaterialColor color) {
     return new CircleAvatar(
       backgroundColor: color,
@@ -59,39 +68,45 @@ class CryptoListState extends State<CryptoList> {
     } else {
       return new RefreshIndicator(
         child: buildCryptoCurrencyList(),
-        onRefresh: getCryptoPrices,
+        onRefresh: getCryptoCurrenciesPrices,
       );
     }
   }
 
-  //Pobiera kursy walut po otwarciu aplikacji
+  //Pobranie cen po otwarciu aplikacji
   @override
   void initState() {
     super.initState();
-    getCryptoPrices();
+    getCryptoCurrenciesPrices();
   }
 
-  //Górny baner
+  //Baner
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Kursy kryptowalut'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: (){
+                //showSearch(context: context, delegate: Search());
+              },
+              icon: Icon(Icons.search),
+            )
+        ],
+          title: Text('Kursy Kryptowalut'),
           centerTitle: true,
         ),
         body: getMainBody());
   }
 
-  //Budowanie listy kryptowlut do wyświeltenia
+  //Budowanie listy kryptowlut
   Widget buildCryptoCurrencyList() {
     return ListView.builder(
         itemCount: cryptoCurrencies.length, //ilość do wyświetlenia (all)
         padding:
         const EdgeInsets.all(20.0),
         itemBuilder: (context, i) {
-          //wyświetlenie lini jeśli liczba nieparzysta
           if (i.isOdd) return Divider();
-          //Obliczenie prawdziwego indeksu danej kryptowaluty
           final index = i ~/ 2;
           final MaterialColor color = colorsList[index % colorsList.length];
           return buildCryptoRow(cryptoCurrencies[index], color);
@@ -156,7 +171,6 @@ class CryptoListState extends State<CryptoList> {
   }
 }
 
-//2 funkcje dodające kolory do procentów zielony up, czerwony down
 getColor(String string) {
   if(string.contains(("-")))
     return hexToColor('#FF0000');
