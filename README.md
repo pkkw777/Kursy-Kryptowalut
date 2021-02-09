@@ -7,4 +7,6 @@ Oparta na darmowym api Coinpaprika:
 
 https://coinpaprika.com/pl/api/
 
-<img src="images/img.jpg" width="400">
+<img src="images/white.jpg" width="400">
+<img src="images/black.jpg" width="400">
+<img src="images/search.jpg" width="400">
