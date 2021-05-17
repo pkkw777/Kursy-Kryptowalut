@@ -1,9 +1,11 @@
-# Kursy Kryptowalut
+# Cryptocurrency Prices
 
 
-Aplikacja pozwalająca śledzić kursy kryptowalut napisana w Dart przy użyciu Flutter.
+An application that allows you to track cryptocurrency prices written in Dart using Flutter.
 
-Oparta na darmowym api Coinpaprika:
+
+Based on the free Coinpaprika api:
+
 
 https://coinpaprika.com/pl/api/
 
