@@ -6,7 +6,6 @@ An application that allows you to track cryptocurrency prices written in Dart us
 
 Based on the free Coinpaprika api:
 
-
 https://coinpaprika.com/pl/api/
 
 <img src="images/white.png" width="400">
